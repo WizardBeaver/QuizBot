@@ -71,8 +71,7 @@ async def wrong_answer(callback: types.CallbackQuery):
 
     await callback.message.answer(f"Ваш ответ: {callback.data.split('_')[-1]}")
     await callback.message.answer(
-        f"Неправильно. Правильный ответ: {quiz_data[current_question_index]
-                                          ['options'][correct_option]}"
+        f"Неправильно. Правильный ответ: {quiz_data[current_question_index]['options'][correct_option]}"  # type: ignore # noqa
     )
 
     current_question_index += 1
@@ -107,7 +106,7 @@ async def cmd_quiz(message: types.Message):
         message (types.Message): Сообщение пользователю
     """
 
-    await message.answer(f"Давайте начнем квиз!")
+    await message.answer("Давайте начнем квиз!")
     await new_quiz(message)
 
 
@@ -124,15 +123,14 @@ async def score_quiz(message: types.Message):
         ) as cursor:
             results = await cursor.fetchall()
     numb = 1
-    await message.answer(f"топ игроков:")
+    await message.answer("топ игроков:")
     for user, user_score in results:
         await message.answer(f"{numb}. {user} - {user_score} очков")
         numb += 1
 
 
 async def main():
-    """Запуск кода
-    """
+    """Запуск кода"""
     await create_table()
     await dp.start_polling(bot)
 
